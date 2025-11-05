@@ -43,10 +43,10 @@ async function sendVerificationEmail({ to, token, name, code }) {
 	const mailOptions = {
 		from: EMAIL_FROM,
 		to,
-		subject: 'Verify your email - Psychometric Platform',
+		subject: 'Verify your email - LifeSkillSphere Platform',
 		html: `
 			<p>Hi ${name || 'there'},</p>
-			<p>Welcome to our Psychometric Testing platform! You can verify your email using either option below:</p>
+			<p>Welcome to our LifeSkillSphere platform! You can verify your email using either option below:</p>
 			<ol>
 				<li>Click the link: <a href="${verifyUrl}">${verifyUrl}</a></li>
 				<li>Or enter this 6-digit code in the app: <strong style="font-size:18px; letter-spacing:2px;">${code || ''}</strong></li>
