@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Sparkles, Mail, Lock, User, ArrowRight, Brain, Heart, Target, Trophy, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { apiFetch } from "@/lib/api"
 
 export default function SignupPage() {
   const router = useRouter()
@@ -61,12 +62,27 @@ export default function SignupPage() {
 
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    // Send verification email (simulated)
-    setVerificationSent(true)
-    setIsSubmitting(false)
+    try {
+      // Map ageGroup to section label for backend
+      const section = ageGroup === 'youth' ? 'Youth' : ageGroup === 'adult' ? 'Adult' : 'Senior'
+      // Simple age mapping (you may change to real integer input)
+      const age = ageGroup === 'youth' ? 16 : ageGroup === 'adult' ? 25 : 60
+      const res = await apiFetch('/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({ name, email, password, age, section })
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        alert(err?.message || 'Registration failed')
+        setIsSubmitting(false)
+        return
+      }
+      setVerificationSent(true)
+    } catch (e) {
+      alert('Registration failed')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (verificationSent) {
@@ -112,8 +128,19 @@ export default function SignupPage() {
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
 
-              <Button variant="outline" size="lg" className="w-full h-12 rounded-xl bg-transparent">
-                Resend Verification Email
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full h-12 rounded-xl bg-transparent"
+                onClick={async () => {
+                  await apiFetch('/api/auth/resend-verification-code', {
+                    method: 'POST',
+                    body: JSON.stringify({ email }),
+                  })
+                  alert('Verification code resent')
+                }}
+              >
+                Resend Verification
               </Button>
             </div>
 

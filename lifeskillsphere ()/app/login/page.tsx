@@ -10,16 +10,42 @@ import { Label } from "@/components/ui/label"
 import { Sparkles, Mail, Lock, ArrowRight, Brain, Heart, Star, Zap } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { apiFetch } from "@/lib/api"
 
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Static login - just navigate to youth page for demo
-    router.push("/youth")
+    try {
+      const res = await apiFetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      })
+      if (res.status === 403) {
+        // not verified -> go to verify screen
+        router.push(`/verify?email=${encodeURIComponent(email)}`)
+        return
+      }
+      if (!res.ok) {
+        alert('Invalid credentials')
+        return
+      }
+      const data = await res.json()
+      if (data?.token) {
+        localStorage.setItem('auth_token', data.token)
+      }
+      // Navigate based on section if available
+      const section = data?.user?.section || ''
+      if (section.toLowerCase().includes('youth')) router.push('/youth')
+      else if (section.toLowerCase().includes('adult')) router.push('/adult')
+      else if (section.toLowerCase().includes('senior')) router.push('/senior')
+      else router.push('/')
+    } catch (e) {
+      alert('Login failed')
+    }
   }
 
   return (
