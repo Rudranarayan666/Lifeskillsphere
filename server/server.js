@@ -5,6 +5,7 @@ const cors = require('cors');
 require('./models');
 const authRouter = require('./controllers/authController');
 const oauthRouter = require('./controllers/oauthController');
+const resultsRouter = require('./controllers/resultsController');
 const passport = require('passport');
 require('./services/passport');
 
@@ -17,6 +18,7 @@ app.use(passport.initialize());
 // Mount the auth routes
 app.use('/api/auth', authRouter);
 app.use('/api/auth', oauthRouter);
+app.use('/api/results', resultsRouter);
 
 // Health check
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));

@@ -52,6 +52,8 @@ TestResult.init(
     indexes: [
       { fields: ['userId'] },
       { fields: ['testType'] },
+      { fields: ['userId', 'finishedAt'] },
+      { fields: ['userId', 'testType', 'finishedAt'] },
     ],
   }
 );

@@ -170,6 +170,18 @@ export default function LoginPage() {
             </p>
           </div>
 
+          <div className="mt-6">
+            <div className="grid gap-3">
+              <a
+                href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/auth/google`}
+                className="w-full inline-flex items-center justify-center h-12 rounded-xl border-2 bg-white hover:bg-gray-50 transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="mr-2" width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16.2 18.9 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 10-2 13.6-5.3l-6.3-5.2C29.3 36 25.9 37.5 22 37.5 16.8 37.5 12.3 34.1 10.7 29.5l-6.5 5C7.5 40.3 15.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3C34.9 31 30.7 34 24 34c-6 0-11-4.9-11-11s5-11 11-11c3 0 5.7 1.2 7.7 3.2l5.6-5.6C34.6 6.1 29.8 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.5-.4-3.5z"/></svg>
+                Continue with Google
+              </a>
+            </div>
+          </div>
+
           <div className="mt-8 pt-6 border-t border-border">
             <p className="text-xs text-center text-muted-foreground leading-relaxed">
               By continuing, you agree to our Terms of Service and Privacy Policy
